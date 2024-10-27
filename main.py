@@ -15,4 +15,4 @@ for script in scripts:
 for process in processes:
     process.wait()
 
-print("All scripts have finished execution.")
+print("All scripts have finished execution.ok h")
