@@ -8,6 +8,7 @@ import pygame
 import time
 import subprocess
 import webbrowser
+import pygetwindow as gw
 import pyautogui
 import time
 import pygetwindow as gw
@@ -200,21 +201,68 @@ def wifi_on():
 def wifi_off():
     """Disable Wi-Fi."""
     subprocess.call(["netsh", "interface", "set", "interface", "Wi-Fi", "disabled"])
+import pygetwindow as gw
+
+def minimize_current_window():
+    """Minimize the currently active window."""
+    try:
+        # Get the currently active window
+        active_window = gw.getActiveWindow()
+        if active_window:
+            active_window.minimize()
+            print(f"Minimized: {active_window.title}")
+        else:
+            print("No active window found.")
+    except Exception as e:
+        print(f"Error: {e}")
+
+
+def type_keyboard(text, delay=0.1):
+    """Type the specified text on the keyboard with an optional delay between keystrokes."""
+    # Give a brief pause before typing
+    time.sleep(1)  # Adjust this delay as necessary for focus
+    for char in text:
+        pyautogui.press(char)  # Type each character
+        time.sleep(delay) 
+
+
+def maximize_current_window():
+    """Maximize the currently active window."""
+    try:
+        # Get the currently active window
+        active_window = gw.getActiveWindow()
+        if active_window:
+            active_window.maximize()
+            print(f"Maximized: {active_window.title}")
+        else:
+            print("No active window found.")
+    except Exception as e:
+        print(f"Error: {e}")
 
 
 
-  # Simulate Alt + B to toggle Bluetooth (assuming it's in the menu)
+def execute_command(command):
+    """Execute a command in CMD and print the output."""
+    try:
+        # Open CMD, execute the command, and capture the output
+        result = subprocess.run(command, shell=True, text=True, capture_output=True)
+        print("Command Output:\n", result.stdout)
+        if result.stderr:
+            print("Command Error:\n", result.stderr)
+    except Exception as e:
+        print(f"An error occurred: {e}")
 
-# Example usage
-if __name__ == "__main__":
-    # Uncomment the desired function to test
-    # shutdown()
-     #sleep()
-    # hybrid_sleep()
-    # deep_sleep()
-    # wifi_on()
-     wifi_off()
-    # hotspot_on()
-    # hotspot_off()
-     #bluetooth_on()
-    # bluetooth_off()
+def get_disk_space(disk):
+    """Return the available disk space as a percentage for the specified disk."""
+    try:
+        # Get disk usage
+        usage = psutil.disk_usage(disk)
+        available_percent = (usage.free / usage.total) * 100
+        return available_percent
+    except Exception as e:
+        print(f"Error: {e}")
+        return None
+# disk space C:/
+
+
+
