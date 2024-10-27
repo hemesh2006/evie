@@ -10,6 +10,11 @@ import subprocess
 import webbrowser
 import pyautogui
 import time
+import pygetwindow as gw
+import os
+import time
+import subprocess
+import pyautogui
 def battery_info():
     battery = psutil.sensors_battery()
     return battery
@@ -140,13 +145,76 @@ def scroll_up(amount):
     pyautogui.scroll(amount)  # Positive value to scroll up
     print(f"Scrolled up by {amount}")
 
-search_youtube("tamil song")
-time.sleep(6)
-click()
-time.sleep(20)
+
+
 def close_tab():
     """Close the current active tab in the web browser."""
     # Simulate pressing Ctrl + W
     pyautogui.hotkey('ctrl', 'w')
     print("Closed the current tab.")
-close_tab()
+
+
+
+def close_current_window():
+    try:
+        # Get the currently active window
+        active_window = gw.getActiveWindow()
+        if active_window:
+            active_window.close()
+            print("Closed the active application.")
+        else:
+            print("No active window found.")
+    except Exception as e:
+        print(f"Error: {e}")
+
+
+
+def search_wikipedia(query):
+    """Search Wikipedia for the specified query."""
+    # Construct the Wikipedia search URL
+    search_url = f"https://en.wikipedia.org/wiki/Special:Search?search={query.replace(' ', '+')}"
+    # Open the search URL in the default web browser
+    webbrowser.open(search_url)
+
+def shutdown():
+    """Shut down the computer."""
+    os.system("shutdown /s /t 1")  # Shutdown command for Windows
+
+def sleep():
+    """Put the computer to sleep."""
+    os.system("rundll32.exe powrprof.dll,SetSuspendState 0,1,0")
+
+def hybrid_sleep():
+    """Put the computer into hybrid sleep."""
+    os.system("powercfg /h on")  # Enable hibernation
+    os.system("rundll32.exe powrprof.dll,SetSuspendState 1,1,0")
+
+def deep_sleep():
+    """Put the computer into deep sleep (hibernation)."""
+    os.system("shutdown /h")  # Hibernate command for Windows
+
+def wifi_on():
+    """Enable Wi-Fi."""
+    subprocess.call(["netsh", "interface", "set", "interface", "Wi-Fi", "enabled"])
+
+def wifi_off():
+    """Disable Wi-Fi."""
+    subprocess.call(["netsh", "interface", "set", "interface", "Wi-Fi", "disabled"])
+
+
+
+  # Simulate Alt + B to toggle Bluetooth (assuming it's in the menu)
+
+# Example usage
+if __name__ == "__main__":
+    # Uncomment the desired function to test
+    # shutdown()
+     #sleep()
+    # hybrid_sleep()
+    # deep_sleep()
+    # wifi_on()
+     wifi_off()
+    # hotspot_on()
+    # hotspot_off()
+     #bluetooth_on()
+    # bluetooth_off()
