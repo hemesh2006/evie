@@ -1,0 +1,5 @@
+[
+    ["asset\\src_image\\skull.png", [100, 100], 1, 1000],
+    ["asset\\src_image\\img2.png", [200, 150], 4, 1000],
+    ["asset\\src_image\\skull.png", [300, 200], 0, 300]
+]
