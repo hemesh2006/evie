@@ -1,6 +1,8 @@
 import psutil
 import pyautogui
 import cv2
+from pycaw.pycaw import AudioUtilities, ISimpleAudioVolume
+import comtypes.client
 from ctypes import cast, POINTER
 from comtypes import CLSCTX_ALL
 from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
@@ -304,6 +306,15 @@ def network_speed(interval=1):
     download_speed_kbs = bytes_recv / 1024 / interval  # KB/s
 
     return upload_speed_kbs, download_speed_kbs
+
+def get_volume():
+    sessions = AudioUtilities.GetAllSessions()
+    for session in sessions:
+        volume = session._ctl.QueryInterface(ISimpleAudioVolume)
+        if session.Process and session.Process.name() == "System":
+            print(f"Current system volume: {volume.GetMasterVolume() * 100}%")
+
+
 
 # Example usage
 if __name__ == "__main__":
