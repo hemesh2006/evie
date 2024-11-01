@@ -39,12 +39,8 @@ import time
 def startup():
     pass
 while True:
+    #stabilization
     time.sleep(0.3)
-    gif.clear()
     
-    a,b=mouse_position()
-    text.write([str(a)+","+str(b),[1550,100],40,"yellow"])
-    text.append(["ram: "+str(ram_usage()),[1550,300],30,"blue"])
-    gif.write(["skull.gif",[740,200]])
     
     
