@@ -1,18 +1,29 @@
-
-import subprocess
-
-
-# List of Python scripts to run
-scripts = [r"components\text_overlay.py", r"components\gif_overlay.py",r"components\image_overlay.py"]
-
-# Start each script in a new process
-processes = []
-for script in scripts:
-    process = subprocess.Popen(["python", script])
-    processes.append(process)
-
-# Wait for all processes to complete
-for process in processes:
-    process.wait()
-
-print("All scripts have finished execution.ok h")
+from power.chat import *
+battery_info()
+screen_shot()
+take_photo()
+set_volume()
+play_music("hi")
+pause_music()
+resume_music()
+stop_music()
+open_application(path)
+google_search(query)
+search_youtube(query)
+click()
+scroll_down(amount)
+scroll_up(amount)
+close_tab()
+close_current_window()
+search_wikipedia(query)
+shutdown()
+sleep()
+hybrid_sleep()
+deep_sleep()
+wifi_on()
+wifi_off()
+minimize_current_window()
+type_keyboard(text)
+maximize_current_window()
+execute_command(command)
+get_disk_space(disk)
