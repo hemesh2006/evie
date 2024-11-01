@@ -1,4 +1,5 @@
 from components.functions import *
+from components.json_folder.jsonmanager import *
 '''
 battery_info()
 screen_shot()
@@ -30,3 +31,16 @@ execute_command(command)
 get_disk_space(disk)
 ram_usage()
 '''
+
+text=JSON(r"C:\Users\HP\Desktop\evie\components\json_folder\text.json")
+image=JSON(r"C:\Users\HP\Desktop\evie\components\json_folder\images.json")
+gif=JSON(r"C:\Users\HP\Desktop\evie\components\json_folder\gif.json")
+image.append([
+  "asset\\src_image\\skull.png",
+  [
+   100,
+   50
+  ],
+  4,
+  400
+ ])

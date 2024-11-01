@@ -39,20 +39,13 @@ class JSON:
             f.write('\n')  # Add a newline at the end of the file
 
 # Example usage
-manager = JSON('data.json')
+#manager = JSON('data.json')
 
 # Append a new element
-manager.append(["asset\\src_gif\\new_image.gif", [150, 250]])
-
-# Clear all elements in the file
-manager.clear()
-
-# Write multiple elements at once
-manager.write([
-    ["asset\\src_gif\\skull.gif", [100, 200]],
-    ["asset\\src_gif\\circle.gif", [300, 400]],
-    ["asset\\src_gif\\ui.gif", [700, 500]]
-])
+#manager.write([
+#    ["asset\\src_gif\\circle.gif", [300, 400]],
+ #   ["asset\\src_gif\\ui.gif", [700, 500]]
+#])
 
 # Read the file contents to verify
-print(manager.read())
+#print(manager.read())
