@@ -1,38 +1,4 @@
 [
- [
-  "asset\\src_image\\skull.png",
-  [
-   200,
-   600
-  ],
-  4,
-  100
- ],
- [
-  "asset\\src_image\\skull.png",
-  [
-   200,
-   150
-  ],
-  4,
-  400
- ],
- [
-  "asset\\src_image\\skull.png",
-  [
-   200,
-   150
-  ],
-  4,
-  400
- ],
- [
-  "asset\\src_image\\skull.png",
-  [
-   100,
-   50
-  ],
-  4,
-  400
- ]
+ ["asset\\src_image\\skull.png",[200,600],4,100]
+
 ]

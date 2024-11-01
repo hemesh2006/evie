@@ -1,24 +1,6 @@
 [
     [
-     "asset\\src_gif\\skull.gif",
-     [
-      100,
-      200
-     ]
-    ],
-    [
-     "asset\\src_gif\\circle.gif",
-     [
-      300,
-      400
-     ]
-    ],
-    [
-     "asset\\src_gif\\ui.gif",
-     [
-      700,
-      500
-     ]
-    ]
+     "asset\\src_gif\\skull.gif",[100,200]
+    ] 
    ]
    

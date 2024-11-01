@@ -35,12 +35,3 @@ ram_usage()
 text=JSON(r"C:\Users\HP\Desktop\evie\components\json_folder\text.json")
 image=JSON(r"C:\Users\HP\Desktop\evie\components\json_folder\images.json")
 gif=JSON(r"C:\Users\HP\Desktop\evie\components\json_folder\gif.json")
-image.append([
-  "asset\\src_image\\skull.png",
-  [
-   100,
-   50
-  ],
-  4,
-  400
- ])
