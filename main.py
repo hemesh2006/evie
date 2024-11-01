@@ -1,4 +1,5 @@
-from power.chat import *
+from components.functions import *
+'''
 battery_info()
 screen_shot()
 take_photo()
@@ -27,3 +28,5 @@ type_keyboard(text)
 maximize_current_window()
 execute_command(command)
 get_disk_space(disk)
+ram_usage()
+'''

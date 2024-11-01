@@ -266,3 +266,11 @@ def get_disk_space(disk):
 
 
 
+def ram_usage():
+    # Get the memory details
+    memory_info = psutil.virtual_memory()
+    # Calculate RAM usage in percentage
+    ram_usage = memory_info.percent
+    return ram_usage
+
+# Example usage
