@@ -38,11 +38,27 @@ class JSON:
         # Replace all data with the given element inside a top-level list
         self._write_data([element])  # Wrap element in a list
 
+    def remove_element(self, element_name):
+        # Load existing data
+        data = self.read()
+        
+        # Iterate through each element to find a match
+        for item in data:
+            if item[0] == element_name:
+                data.remove(item)  # Remove the first match
+                self._write_data(data)  # Update the file after removal
+                print(f"Removed: {item}")
+                return data  # Return updated data list after removal
+        
+        print("Element not found.")
+        return data  # Return unmodified data if no match is found
+
     def _write_data(self, data):
         # Custom write to ensure formatting and spacing
         with open(self.file_path, 'w') as f:
             json_str = json.dumps(data, indent=4, separators=(',', ': '))
             f.write(json_str + '\n')  # Add a newline at the end
+
 
 '''sample gif json:
 [
