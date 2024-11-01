@@ -274,3 +274,7 @@ def ram_usage():
     return ram_usage
 
 # Example usage
+def mouse_position():
+    # Get the current mouse position
+    position = pyautogui.position()
+    return position

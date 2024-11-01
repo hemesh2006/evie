@@ -10,7 +10,7 @@ class JSON:
         # Check if the file exists; if not, create it with an empty list
         if not os.path.exists(self.file_path):
             with open(self.file_path, 'w') as f:
-                json.dump([], f)
+                json.dump([], f)  # Start with an empty list
 
     def read(self):
         # Read and return the current contents of the JSON file
@@ -18,56 +18,29 @@ class JSON:
             return json.load(f)
 
     def append(self, new_data):
-        # Load existing data, append the new data, and write back with custom formatting
+        # Load existing data
         with open(self.file_path, 'r') as f:
             data = json.load(f)
-        data.append(new_data)
+
+        # Ensure we're working with a top-level list
+        if not isinstance(data, list):
+            data = []  # Reset if the format is incorrect
+
+        # Extend the list directly with new_data items, assuming new_data is a list of items
+        data.extend([new_data])  # Add items without creating additional nesting
         self._write_data(data)
 
     def clear(self):
         # Clear all data by writing an empty list
-        self._write_data([])
+        self._write_data([])  # Write an empty list
 
-    def write(self, elements):
-        # Replace all data with the given list of elements
-        self._write_data(elements)
+    def write(self, element):
+        # Replace all data with the given element inside a top-level list
+        self._write_data([element])  # Wrap element in a list
 
     def _write_data(self, data):
-        # Custom write to ensure each list item appears on a single line
+        # Custom write to ensure formatting and spacing
         with open(self.file_path, 'w') as f:
-            json.dump(data, f, indent=1, separators=(',', ': '))
-            f.write('\n')  # Add a newline at the end of the file
+            json_str = json.dumps(data, indent=4, separators=(',', ': '))
+            f.write(json_str + '\n')  # Add a newline at the end
 
-# Example usage
-#manager = JSON('data.json')
-
-# Append a new element
-#manager.write([
-#    ["asset\\src_gif\\circle.gif", [300, 400]],
- #   ["asset\\src_gif\\ui.gif", [700, 500]]
-#])
-
-# Read the file contents to verify
-#print(manager.read())
-'''
-json format text:
-[
-[
-    ["12:58:56", [100, 200], 16, "red"]
-]
-]
-
-json format gif:
-[
-    [
-     "asset\\src_gif\\skull.gif",[100,200]
-    ] 
-   ]
-
-json format image:
-[
- ["asset\\src_image\\skull.png",[200,600],4,100]
-
-]
-
-'''

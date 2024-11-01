@@ -35,3 +35,10 @@ ram_usage()
 text=JSON(r"C:\Users\HP\Desktop\evie\components\json_folder\text.json")
 image=JSON(r"C:\Users\HP\Desktop\evie\components\json_folder\images.json")
 gif=JSON(r"C:\Users\HP\Desktop\evie\components\json_folder\gif.json")
+import time
+while True:
+    time.sleep(0.3)
+    a,b=mouse_position()
+    print("X=",a,"Y=",b)
+    text.write([str(a)+","+str(b),[1550,100],40,"yellow"])
+    text.append(["mouse point",[1550,200],20,"white"])
