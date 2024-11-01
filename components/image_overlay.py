@@ -41,6 +41,7 @@ class ImageOverlay(QMainWindow):
             image_path, position, blink_count, blink_interval = image_data
             position = QPoint(position[0], position[1])  # Convert list to QPoint
             label = QLabel(self)
+            image_path="asset\\src_image\\"+image_path
             pixmap = QPixmap(image_path)
 
             if pixmap.isNull():

@@ -38,7 +38,7 @@ class GifOverlay(QMainWindow):
                 print("Invalid item format in JSON. Expected [image_path, [x, y]].")
                 continue
 
-            gif_path = item[0]
+            gif_path = "asset\\src_gif\\"+item[0]
             position = item[1]
 
             if not isinstance(position, list) or len(position) != 2:
