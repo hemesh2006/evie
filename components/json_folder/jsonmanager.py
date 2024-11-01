@@ -44,3 +44,38 @@ class JSON:
             json_str = json.dumps(data, indent=4, separators=(',', ': '))
             f.write(json_str + '\n')  # Add a newline at the end
 
+'''sample gif json:
+[
+    [
+        "skull.gif",
+        [
+            740,
+            200
+        ]
+    ]
+]
+'''
+'''sample test json:
+[
+    [
+        "541,642",
+        [
+            1550,
+            100
+        ],
+        40,
+        "yellow"
+    ],
+    [
+        "ram: 86.2",
+        [
+            1550,
+            300
+        ],
+        30,
+        "blue"
+    ]
+]
+'''
+'''json sample image:
+[["skull.png", [100, 200], 5, 500]]'''

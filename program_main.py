@@ -36,13 +36,15 @@ text=JSON(r"C:\Users\HP\Desktop\evie\components\json_folder\text.json")
 image=JSON(r"C:\Users\HP\Desktop\evie\components\json_folder\images.json")
 gif=JSON(r"C:\Users\HP\Desktop\evie\components\json_folder\gif.json")
 import time
+def startup():
+    pass
 while True:
     time.sleep(0.3)
+    gif.clear()
+    
     a,b=mouse_position()
-    print("X=",a,"Y=",b)
     text.write([str(a)+","+str(b),[1550,100],40,"yellow"])
-    text.append(["mouse point",[1550,200],20,"white"])
-    text.append([str(ram_usage()),[1550,300],30,"blue"])
- 
-    image.write(["skull.png",[400,600],4,100])
-    image.append(["skull.png",[200,600],4,100])
+    text.append(["ram: "+str(ram_usage()),[1550,300],30,"blue"])
+    gif.write(["skull.gif",[740,200]])
+    
+    

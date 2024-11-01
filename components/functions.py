@@ -278,3 +278,37 @@ def mouse_position():
     # Get the current mouse position
     position = pyautogui.position()
     return position
+
+
+
+def network_speed(interval=1):
+    # Capture initial network stats
+    net_before = psutil.net_io_counters()
+    bytes_sent_before = net_before.bytes_sent
+    bytes_recv_before = net_before.bytes_recv
+
+    # Wait for a short interval
+    time.sleep(interval)
+
+    # Capture new network stats
+    net_after = psutil.net_io_counters()
+    bytes_sent_after = net_after.bytes_sent
+    bytes_recv_after = net_after.bytes_recv
+
+    # Calculate the difference in bytes sent and received
+    bytes_sent = bytes_sent_after - bytes_sent_before
+    bytes_recv = bytes_recv_after - bytes_recv_before
+
+    # Convert to kilobytes and calculate speed in KB/s
+    upload_speed_kbs = bytes_sent / 1024 / interval  # KB/s
+    download_speed_kbs = bytes_recv / 1024 / interval  # KB/s
+
+    return upload_speed_kbs, download_speed_kbs
+
+# Example usage
+if __name__ == "__main__":
+    upload_speed, download_speed = get_current_network_speed_kbs()
+    print(f"Upload Speed: {upload_speed:.2f} KB/s")
+    print(f"Download Speed: {download_speed:.2f} KB/s")
+
+
