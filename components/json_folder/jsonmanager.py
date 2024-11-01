@@ -49,3 +49,25 @@ class JSON:
 
 # Read the file contents to verify
 #print(manager.read())
+'''
+json format text:
+[
+[
+    ["12:58:56", [100, 200], 16, "red"]
+]
+]
+
+json format gif:
+[
+    [
+     "asset\\src_gif\\skull.gif",[100,200]
+    ] 
+   ]
+
+json format image:
+[
+ ["asset\\src_image\\skull.png",[200,600],4,100]
+
+]
+
+'''

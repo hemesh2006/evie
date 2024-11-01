@@ -3,7 +3,7 @@ import subprocess
 
 
 # List of Python scripts to run
-scripts = [r"components\text_overlay.py", r"components\gif_overlay.py",r"components\image_overlay.py"]
+scripts = [r"components\text_overlay.py", r"components\gif_overlay.py",r"components\image_overlay.py",r"C:\Users\HP\Desktop\evie\program_main.py"]
 
 # Start each script in a new process
 processes = []
