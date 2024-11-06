@@ -88,6 +88,7 @@ class InputOverlay(QMainWindow):
         single_line_input = QLineEdit(self)
         single_line_input.setPlaceholderText(placeholder)
         single_line_input.setStyleSheet(f"background-color: rgba(0, 0, 0, 0); color: {color}; border: 0px solid rgba(255, 255, 255, 0.5); border-radius: 5px; padding: 5px; font-size: {font_size}px;")
+        single_line_input.setFocusPolicy(Qt.StrongFocus)  # Set focus policy to allow focus with other overlays
         single_line_input.returnPressed.connect(self.save_single_line_input)  # Connect Enter key
         single_line_input.setGeometry(start_pos[0], start_pos[1], end_pos[0] - start_pos[0], end_pos[1] - start_pos[1])
         return single_line_input
@@ -97,6 +98,7 @@ class InputOverlay(QMainWindow):
         multi_line_input = QTextEdit(self)
         multi_line_input.setPlaceholderText(placeholder)
         multi_line_input.setStyleSheet(f"background-color: rgba(0, 0, 0, 0); color: {color}; border: 0px solid rgba(255, 255, 255, 0.5); border-radius: 5px; padding: 5px; font-size: {font_size}px;")
+        multi_line_input.setFocusPolicy(Qt.StrongFocus)  # Set focus policy to allow focus with other overlays
         multi_line_input.installEventFilter(self)  # Install event filter for key press
         multi_line_input.setGeometry(start_pos[0], start_pos[1], end_pos[0] - start_pos[0], end_pos[1] - start_pos[1])
         return multi_line_input
@@ -179,7 +181,9 @@ class InputOverlay(QMainWindow):
             print(f"Error checking JSON file: {e}")
 
     def show_overlay(self):
-        """Show the overlay window."""  
+        """Show the overlay window and force focus to the inputs."""  
+        self.raise_()  # Bring the window to the front
+        self.activateWindow()  # Activate the window
         self.show()
 
 def main():
@@ -193,14 +197,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-'''
-sample json input:
-
-
-
-[
-    ["Enter single line here..", [600, 400], [1550, 700], [0, 255, 0], 30, 0]
-]
-
-
-'''

@@ -71,7 +71,7 @@ class JSON:
     ]
 ]
 '''
-'''sample test json:
+'''sample text json:
 [
     [
         "541,642",

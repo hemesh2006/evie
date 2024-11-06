@@ -1,8 +1,9 @@
 import sys
 import json
+import os
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton
 from PyQt5.QtGui import QIcon, QPixmap
-from PyQt5.QtCore import Qt, QPoint, QSize
+from PyQt5.QtCore import Qt, QPoint, QSize, QTimer
 
 class ImageButtonOverlay(QMainWindow):
     def __init__(self, config_file_path):
@@ -15,11 +16,22 @@ class ImageButtonOverlay(QMainWindow):
 
         # Paths to JSON files
         self.config_file_path = config_file_path
-        self.event_log_file = "button_events.json"
+        self.event_log_file = r"components\json_folder\button_events.json"
+
+        # Initialize last_modified_time attribute
+        self.last_modified_time = None
 
         # Load button configuration and initialize buttons
         self.buttons = {}
         self.load_buttons_from_json()
+
+        # Reset click count to 0 on initial run
+        self.reset_click_count()
+
+        # Timer to continuously check for updates in the JSON file
+        self.update_timer = QTimer(self)
+        self.update_timer.timeout.connect(self.check_and_update_json)
+        self.update_timer.start(500)  # Check every 500 ms
 
     def load_buttons_from_json(self):
         """Load buttons from the configuration JSON file."""
@@ -55,16 +67,30 @@ class ImageButtonOverlay(QMainWindow):
         except Exception as e:
             print(f"Error loading buttons from JSON: {e}")
 
+    def reset_click_count(self):
+        """Reset the click count of all buttons to 0 on initial run."""
+        events = self.read_event_log()
+
+        # Initialize click_count to 0 for all buttons
+        for button_id in self.buttons:
+            if button_id not in events:
+                events[button_id] = {"click_count": 0}
+            else:
+                events[button_id]["click_count"] = 0
+
+        self.write_event_log(events)
+
     def log_click_event(self, button_id):
         """Log the number of clicks for the button."""
         events = self.read_event_log()
 
-        # Initialize or increment the click count for the button
-        if button_id not in events:
-            events[button_id] = {"click_count": 1}
-        else:
-            # If click_count is missing, initialize it to 1
-            events[button_id]["click_count"] = events[button_id].get("click_count", 0) + 1
+        # Ensure click_count is an integer, even if the JSON file has unexpected data
+        try:
+            events.setdefault(button_id, {})  # Initialize if button_id not present
+            events[button_id]["click_count"] = int(events[button_id].get("click_count", 0)) + 1
+        except ValueError:
+            # If click_count is not a valid integer, reset it to 1
+            events[button_id]["click_count"] = 1
 
         print(f"{button_id} clicked. Total clicks: {events[button_id]['click_count']}")
 
@@ -83,6 +109,33 @@ class ImageButtonOverlay(QMainWindow):
         with open(self.event_log_file, "w") as file:
             json.dump(events, file, indent=4)
 
+    def update_buttons_from_json(self):
+        """Update button click counts from the JSON file."""
+        events = self.read_event_log()
+
+        for button_id, button in self.buttons.items():
+            # Get the click count from the JSON file
+            click_count = events.get(button_id, {}).get("click_count", 0)
+
+            # Display the updated click count (you can change this to update the button or display it)
+            print(f"Button {button_id} has {click_count} clicks")
+
+    def check_and_update_json(self):
+        """Check if the JSON file has been updated, and if so, update button click counts."""
+        current_modified_time = self.get_json_file_modified_time()
+
+        if current_modified_time != self.last_modified_time:
+            print(f"JSON file has been updated at {current_modified_time}. Refreshing button click counts.")
+            self.last_modified_time = current_modified_time
+            self.update_buttons_from_json()
+
+    def get_json_file_modified_time(self):
+        """Get the last modified time of the JSON file."""
+        try:
+            return os.path.getmtime(self.config_file_path)
+        except FileNotFoundError:
+            return None
+
     def show_overlay(self):
         """Show the overlay window."""
         self.show()
@@ -91,7 +144,7 @@ def main():
     app = QApplication(sys.argv)
 
     # JSON file path with button configurations
-    config_file_path = r"components\button_details.json"
+    config_file_path = r"components\json_folder\button_details.json"
 
     # Create overlay with image buttons
     overlay = ImageButtonOverlay(config_file_path)

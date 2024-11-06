@@ -1,0 +1,17 @@
+[
+    {
+        "id": "button1",
+        "image_path": "C:\\Users\\HP\\Desktop\\evie\\asset\\src_image\\mic.png",
+        "position": [200, 100],
+        "size": [100, 50]
+    },
+    {
+        "id": "button2",
+        "image_path": "C:\\Users\\HP\\Desktop\\evie\\asset\\src_image\\mic.png",
+        "position": [300, 200],
+        "size": [100, 50]
+
+
+    }
+    
+]
