@@ -1,4 +1,20 @@
 from components.json_folder.jsonmanager import *
+def get_input(linesd):
+    path=r"components\json_folder\output.json"
+    data=json.load(open(path,"r"))
+    return data[linesd]["single_line"],data[linesd]["multi_line"]
+def button_reset(idval):
+    path=r"components\json_folder\button_events.json"
+    data=json.load(open(path,"r"))
+    data[idval]["click_count"]=0
+    json.dump(data,open(path,"w"),indent=4)
+def button_count(idval):
+    path=r"components\json_folder\button_events.json"
+    data=json.load(open(path,"r"))
+    return data[idval]["click_count"]
+    
+button_reset("arrow")
+
 '''sample gif json:
 [
     [
@@ -89,9 +105,10 @@ def buttonshe():
     button.append(["voifce","mic.png",[1840,665],[50,50]])
     time.sleep(10)
 def arrow_button():
-    button.clear()
-    button.write(["skull.png","mic.png",[1870,720],[50,50]])
-    buttonshe()
+    button.write(["arrow","mic.png",[1870,720],[50,50]])
+    if button_count("arrow")==1:
+        buttonshe()
+
 def screen_show():
     gif.clear()
     image.clear()
@@ -101,12 +118,19 @@ def screen_show():
 def sign_in():
     pass
 def sign_up():
+    path="output.json"
+    
     input.write(["username",[780, 300],[1100, 400],[255, 0, 0],38,1])
+    file=open(path,"r")
+    data=json.load(file)
+    username=data["single_line"]
     time.sleep(20)
     input.write(["password",[780, 300],[1100, 400],[255, 0, 0],38,1])
-def warm_up():
-    pass
-warm_up()
+    file=open(path,"r")
+    data=json.load(file)
+    password=data["single_line"]
+button_reset("arrow")
+
 while(1):
     text.clear()
     image.clear()
@@ -115,8 +139,8 @@ while(1):
     input.clear()
     #init_screen()
     #screen_show()
-    #arrow_button()
-    sign_up()
-    break
+    if button_count("arrow")==0:
+        arrow_button()
+    #sign_up()
     time.sleep(10)
     

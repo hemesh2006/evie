@@ -1,21 +1,6 @@
 {
-    "button9": {
-        "click_count": 12
-    },
-    "button8": {
-        "click_count": 1
-    },
-    "button1": {
-        "click_count": 0
-    },
-    "button0": {
-        "click_count": 1
-    },
     "arrow": {
-        "click_count": 0
-    },
-    "voifce": {
-        "click_count": 0
+        "click_count": 1
     },
     "power": {
         "click_count": 0
@@ -32,7 +17,10 @@
     "voiceft": {
         "click_count": 0
     },
-    "skull.png": {
+    "voifce": {
         "click_count": 0
+    },
+    "mic.png": {
+        "click_count": 1
     }
 }
