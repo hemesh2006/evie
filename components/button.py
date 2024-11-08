@@ -41,7 +41,7 @@ class ImageButtonOverlay(QMainWindow):
                 button_data = json.load(file)
 
             # Remove buttons that are no longer in the JSON file
-            current_button_ids = {button_info["id"] for button_info in button_data}
+            current_button_ids = {button_info[0] for button_info in button_data}
             for button_id in list(self.buttons.keys()):
                 if button_id not in current_button_ids:
                     self.buttons[button_id].deleteLater()
@@ -49,10 +49,7 @@ class ImageButtonOverlay(QMainWindow):
 
             # Create or update buttons based on JSON file
             for button_info in button_data:
-                button_id = button_info["id"]
-                image_path = button_info["image_path"]
-                position = button_info["position"]
-                size = button_info["size"]
+                button_id, image_path, position, size = button_info
 
                 if button_id in self.buttons:
                     # Update existing button if properties have changed
@@ -75,7 +72,7 @@ class ImageButtonOverlay(QMainWindow):
         button.clicked.connect(lambda _, b=button_id: self.log_click_event(b))
 
         # Set button icon and size
-        pixmap = QPixmap("C:\\Users\\HP\\Desktop\\evie\\asset\\src_image\\"+image_path)
+        pixmap = QPixmap("C:\\Users\\HP\\Desktop\\evie\\asset\\src_image\\" + image_path)
         if not pixmap.isNull():
             button.setIcon(QIcon(pixmap))
             button.setIconSize(QSize(size[0], size[1]))
@@ -90,7 +87,7 @@ class ImageButtonOverlay(QMainWindow):
     def update_button(self, button, image_path, position, size):
         """Update an existing button's image, position, and size."""
         # Update button icon
-        pixmap = QPixmap("C:\\Users\\HP\\Desktop\\evie\\asset\\src_image\\"+image_path)
+        pixmap = QPixmap("C:\\Users\\HP\\Desktop\\evie\\asset\\src_image\\" + image_path)
         if not pixmap.isNull():
             button.setIcon(QIcon(pixmap))
             button.setIconSize(QSize(size[0], size[1]))
@@ -191,23 +188,20 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 #sample json file
 '''[
-    {
-        "id": "button1",
-        "image_path": "mic.png",
-        "position": [10, 100],
-        "size": [100, 50]
-    },
-    {
-        "id": "button8",
-        "image_path": "mic.png",
-        "position": [400, 200],
-        "size": [100, 50]
-
-
-    }
-   
-
+    [
+        "button8",
+        "mic.png",
+        [
+            400,
+            200
+        ],
+        [
+            100,
+            50
+        ]
+    ]
 ]
 '''

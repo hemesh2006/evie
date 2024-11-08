@@ -3,9 +3,36 @@
         "click_count": 12
     },
     "button8": {
-        "click_count": 4
+        "click_count": 1
     },
     "button1": {
-        "click_count": 12
+        "click_count": 0
+    },
+    "button0": {
+        "click_count": 1
+    },
+    "arrow": {
+        "click_count": 0
+    },
+    "voifce": {
+        "click_count": 0
+    },
+    "power": {
+        "click_count": 0
+    },
+    "command": {
+        "click_count": 0
+    },
+    "voice": {
+        "click_count": 0
+    },
+    "na": {
+        "click_count": 0
+    },
+    "voiceft": {
+        "click_count": 0
+    },
+    "skull.png": {
+        "click_count": 0
     }
 }

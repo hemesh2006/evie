@@ -60,15 +60,10 @@ class JSON:
             f.write(json_str + '\n')  # Add a newline at the end
 
 
+
 '''sample gif json:
 [
-    [
-        "skull.gif",
-        [
-            740,
-            200
-        ]
-    ]
+    ["skull.gif",[740,200]]
 ]
 '''
 '''sample text json:
@@ -95,3 +90,24 @@ class JSON:
 '''
 '''json sample image:
 [["skull.png", [100, 200], 5, 500]]'''
+
+'''sample input 
+[
+    [
+        "Enter your name",       
+        [100, 100],               
+        [400, 150],              
+        [255, 0, 0],             
+        14,                       
+        1                       
+    ],
+    [
+        "Enter your message",     
+        [100, 200],              
+        [400, 350],             
+        [0, 0, 255],           
+        12,                      
+        0                        
+    ]
+]
+'''
