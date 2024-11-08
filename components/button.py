@@ -191,3 +191,23 @@ def main():
 
 if __name__ == "__main__":
     main()
+#sample json file
+'''[
+    {
+        "id": "button1",
+        "image_path": "mic.png",
+        "position": [10, 100],
+        "size": [100, 50]
+    },
+    {
+        "id": "button8",
+        "image_path": "mic.png",
+        "position": [400, 200],
+        "size": [100, 50]
+
+
+    }
+   
+
+]
+'''
