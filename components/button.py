@@ -1,6 +1,7 @@
 import sys
 import json
 import os
+import time
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtCore import Qt, QPoint, QSize, QTimer
@@ -34,38 +35,70 @@ class ImageButtonOverlay(QMainWindow):
         self.update_timer.start(500)  # Check every 500 ms
 
     def load_buttons_from_json(self):
-        """Load buttons from the configuration JSON file."""
+        """Load buttons from the configuration JSON file and synchronize with UI."""
         try:
             with open(self.config_file_path, "r") as file:
                 button_data = json.load(file)
 
-                for button_info in button_data:
-                    # Unpack details
-                    button_id = button_info["id"]
-                    image_path = button_info["image_path"]
-                    position = button_info["position"]
-                    size = button_info["size"]
+            # Remove buttons that are no longer in the JSON file
+            current_button_ids = {button_info["id"] for button_info in button_data}
+            for button_id in list(self.buttons.keys()):
+                if button_id not in current_button_ids:
+                    self.buttons[button_id].deleteLater()
+                    del self.buttons[button_id]
 
-                    # Create a button
-                    button = QPushButton(self)
-                    button.setObjectName(button_id)
-                    button.setStyleSheet("background-color: transparent;")
-                    button.clicked.connect(lambda _, b=button_id: self.log_click_event(b))
+            # Create or update buttons based on JSON file
+            for button_info in button_data:
+                button_id = button_info["id"]
+                image_path = button_info["image_path"]
+                position = button_info["position"]
+                size = button_info["size"]
 
-                    # Set button icon and size
-                    pixmap = QPixmap(image_path)
-                    if not pixmap.isNull():
-                        button.setIcon(QIcon(pixmap))
-                        button.setIconSize(QSize(size[0], size[1]))
-
-                    # Set position and add to button dictionary
-                    button.move(QPoint(position[0], position[1]))
-                    button.resize(size[0], size[1])
-                    button.show()
-                    self.buttons[button_id] = button
+                if button_id in self.buttons:
+                    # Update existing button if properties have changed
+                    button = self.buttons[button_id]
+                    if button.icon().name() != image_path or button.size() != QSize(*size) or \
+                       button.pos() != QPoint(*position):
+                        self.update_button(button, image_path, position, size)
+                else:
+                    # Create new button if it doesn't exist
+                    self.create_button(button_id, image_path, position, size)
 
         except Exception as e:
             print(f"Error loading buttons from JSON: {e}")
+
+    def create_button(self, button_id, image_path, position, size):
+        """Create a button and add it to the overlay."""
+        button = QPushButton(self)
+        button.setObjectName(button_id)
+        button.setStyleSheet("background-color: transparent;")
+        button.clicked.connect(lambda _, b=button_id: self.log_click_event(b))
+
+        # Set button icon and size
+        pixmap = QPixmap("C:\\Users\\HP\\Desktop\\evie\\asset\\src_image\\"+image_path)
+        if not pixmap.isNull():
+            button.setIcon(QIcon(pixmap))
+            button.setIconSize(QSize(size[0], size[1]))
+
+        # Set position and add to button dictionary
+        button.move(QPoint(position[0], position[1]))
+        button.resize(size[0], size[1])
+        button.show()
+        self.buttons[button_id] = button
+        print(f"Created button '{button_id}'")
+
+    def update_button(self, button, image_path, position, size):
+        """Update an existing button's image, position, and size."""
+        # Update button icon
+        pixmap = QPixmap("C:\\Users\\HP\\Desktop\\evie\\asset\\src_image\\"+image_path)
+        if not pixmap.isNull():
+            button.setIcon(QIcon(pixmap))
+            button.setIconSize(QSize(size[0], size[1]))
+
+        # Update button position and size
+        button.move(QPoint(position[0], position[1]))
+        button.resize(size[0], size[1])
+        print(f"Updated button '{button.objectName()}' with new properties.")
 
     def reset_click_count(self):
         """Reset the click count of all buttons to 0 on initial run."""
@@ -109,25 +142,27 @@ class ImageButtonOverlay(QMainWindow):
         with open(self.event_log_file, "w") as file:
             json.dump(events, file, indent=4)
 
-    def update_buttons_from_json(self):
-        """Update button click counts from the JSON file."""
-        events = self.read_event_log()
-
-        for button_id, button in self.buttons.items():
-            # Get the click count from the JSON file
-            click_count = events.get(button_id, {}).get("click_count", 0)
-
-            # Display the updated click count (you can change this to update the button or display it)
-            print(f"Button {button_id} has {click_count} clicks")
-
     def check_and_update_json(self):
-        """Check if the JSON file has been updated, and if so, update button click counts."""
+        """Check if the JSON file has been updated, and if so, update button properties."""
         current_modified_time = self.get_json_file_modified_time()
 
         if current_modified_time != self.last_modified_time:
-            print(f"JSON file has been updated at {current_modified_time}. Refreshing button click counts.")
+            print(f"JSON file has been updated at {current_modified_time}. Refreshing button properties.")
             self.last_modified_time = current_modified_time
-            self.update_buttons_from_json()
+            self.wait_for_valid_json()
+
+    def wait_for_valid_json(self):
+        """Wait for the JSON file to be valid before updating button data."""
+        while True:
+            try:
+                # Try loading the JSON to ensure it's valid
+                with open(self.config_file_path, "r") as file:
+                    json.load(file)
+                self.load_buttons_from_json()
+                break  # Exit loop if JSON is valid
+            except json.JSONDecodeError:
+                print("JSON file is invalid. Waiting for a valid file...")
+                time.sleep(0.5)  # Wait briefly before retrying
 
     def get_json_file_modified_time(self):
         """Get the last modified time of the JSON file."""
