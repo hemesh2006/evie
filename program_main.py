@@ -96,18 +96,6 @@ def init_screen():
     image.clear()
     image.write(["textscroll.png", [270, 120], 0, 0])
     #button.write(["button8", "mic.png", [400, 200], [100, 50]])
-def buttonshe():
-    button.append(["power","mic.png",[1700,600],[50,50]])
-    button.append(["command","mic.png",[1770,600],[50,50]])
-    button.append(["voice","mic.png",[1770,665],[50,50]])
-    button.append(["na","mic.png",[1700,665],[50,50]])
-    button.append(["voiceft","mic.png",[1840,600],[50,50]])
-    button.append(["voifce","mic.png",[1840,665],[50,50]])
-    time.sleep(10)
-def arrow_button():
-    button.write(["arrow","mic.png",[1870,720],[50,50]])
-    if button_count("arrow")==1:
-        buttonshe()
 
 def screen_show():
     gif.clear()
@@ -137,10 +125,8 @@ while(1):
     gif.clear()
     button.clear()
     input.clear()
-    #init_screen()
-    #screen_show()
-    if button_count("arrow")==0:
-        arrow_button()
-    #sign_up()
+    init_screen()
+    screen_show()
+    sign_up()
     time.sleep(10)
     
