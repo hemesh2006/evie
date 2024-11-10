@@ -2,13 +2,13 @@ import pyttsx3
 
 # Initialize the pyttsx3 engine
 engine = pyttsx3.init()
-def spk(text,rat=200):
+def spk(text,rat=200,vol=0.9):
 # Set the speaking rate
     newVoiceRate = 200  # Adjust this value to make the speech faster or slower
     engine.setProperty('rate', rat)
 
 # Set other properties if desired
-    engine.setProperty('volume',1)  # Volume level (0.0 to 1.0)
+    engine.setProperty('volume',vol)  # Volume level (0.0 to 1.0)
 # Convert text to speech
     engine.say(text)
 

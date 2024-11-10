@@ -1,4 +1,6 @@
 from components.json_folder.jsonmanager import *
+from components.speak import *
+from components.functions import *
 def get_input(linesd):
     path=r"components\json_folder\output.json"
     data=json.load(open(path,"r"))
@@ -57,6 +59,7 @@ input=JSON("components\\json_folder\\inputs.json")
 gif=JSON("components\\json_folder\\gif.json")
 button=JSON("components\\json_folder\\button_details.json")
 def init_screen():
+    spk("evie activated")
     text.clear()
     image.clear()
     input.clear()
@@ -103,30 +106,28 @@ def screen_show():
     gif.write(["df.gif",[820,350]])
     time.sleep(4)
     gif.remove_element("df.gif")
-def sign_in():
-    pass
-def sign_up():
-    path="output.json"
+
+def sign_up(f):
     
     input.write(["username",[780, 300],[1100, 400],[255, 0, 0],38,1])
-    file=open(path,"r")
-    data=json.load(file)
-    username=data["single_line"]
-    time.sleep(20)
-    input.write(["password",[780, 300],[1100, 400],[255, 0, 0],38,1])
-    file=open(path,"r")
-    data=json.load(file)
-    password=data["single_line"]
-button_reset("arrow")
-
-while(1):
-    text.clear()
-    image.clear()
-    gif.clear()
-    button.clear()
-    input.clear()
-    init_screen()
-    screen_show()
-    sign_up()
+    spk(f,145,1)
     time.sleep(10)
+    input.write(["password",[780, 300],[1100, 400],[255, 0, 0],38,1])
+    spk("Enter your password",145,1)
+    time.sleep(10)
+text.clear()
+image.clear()
+gif.clear()
+button.clear()
+input.clear()
+while(1):
+    #screen_show()
+    #sign_up("Enter  your Username")
+    #spk("thankks for using me evie me s evie iam making for you "
+    gif.append(["loadh.gif",[840,700]])
+    command=mic()
+    gif.remove_element("loadh.gif")
+    
+    
+    
     
