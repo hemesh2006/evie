@@ -598,6 +598,29 @@ def show_desktop():
         print("Desktop is now visible.")
     except Exception as e:
         print(f"Error showing desktop: {e}")
+from plyer import notification
+
+def show_notification(title: str, message: str, timeout: int = 5):
+    """
+    Display a desktop notification.
+
+    Args:
+        title (str): The title of the notification.
+        message (str): The message content of the notification.
+        timeout (int): Duration (in seconds) for the notification to appear. Default is 5 seconds.
+    """
+    try:
+        notification.notify(
+            title=title,
+            message=message,
+            timeout=timeout  # Notification will disappear after this time
+        )
+        print("Notification displayed successfully.")
+    except Exception as e:
+        print(f"Error displaying notification: {e}")
+
+# Example usage
+
 
 # Call the function to show the desktop
 show_desktop()

@@ -153,25 +153,57 @@ image.clear()
 gif.clear()
 button.clear()
 input.clear()
-
-while(1):
-    #screen_show()
-    #sign_up("Enter  your Username")
+#screen_show()
+#sign_up("Enter  your Username")
+show_notification("LUCAS", " intelligent  assistant activated", 10)
+try:
+ def li():
+  while(1):
+    text.remove_element("Ram Usage")
+    image.remove_element("com12.png")
+    text.append(["Ram Usage",[1606,190],20,"red"])
+    text.append([str(ram_usage()),[1606,240],29,"red"])
     gif.append(["loadh.gif",[840,700]])
     command=str(mic())
+    
+    text.write([str(mouse_position()),[1500,10],12,"yellow"])
+    text.append([command,[100,100],29,"yellow"]) 
     command=command.lower()
+    if command=="none":
+         continue
+    if ram_usage()>=95:
+         spk("i think you reduce your ram usage")
+         show_notification("Ram ", "Ram Overflow", 10)
+    elif  ram_usage()==94:
+         spk("i think you reduce your ram usage")
+         show_notification("jarvis ", "Ram Overflow", 10)
+    image.append(["com12.png", [60, 80], 0, 0])
     gif.remove_element("loadh.gif")
     if "hello" in command or "hi" in command:
         spk("hello! how can i assist you today?")
+    elif command =="show ram usage":
+         text.append()
     elif "how are you" in command:
         spk("i'm just a bunch of code, but thank you for asking! how are you?")
     elif "your name" in command:
-        spk("i am your inteligent assistant  and my name devid")
+        spk("i am your inteligent assistant  and my name is,lucas")
+    elif "play song" == command:
+         spk("playing song  on youtube")
+         open_chrome("https://www.youtube.com/results?search_query=english+song")
+         maximize_current_window()
+    elif command=="maxi":
+         pass
+    elif "turn on wifi" in command:
+         spk("turn on wifi")
+         click(1713,1053)
+         click(1517,454)
+         time.sleep(600)
+         click(1517,454)
     elif "bye" in command or "goodbye" in command:
         spk("goodbye! have a great day!")
-    elif "weather" in command:
+    elif "weather"== command:
         spk("your location has  a"+weather_forecast().replace("c","celcius"))
-    elif "hello" in command or "hi" in command:
+    elif "hello"== command:
         spk("hello! how can i assist you today?")
     elif "how are you" in command:
         spk("i'm just code, but thank you for asking! how are you?")  
@@ -351,14 +383,14 @@ while(1):
     elif "do you like sports" in command:
             spk(" i don't play sports, but i enjoy learning about them!")
 
-    elif "what's your favorite color" in command or "what is your favourite color":
+    elif "what's your favorite color" in command or "what is your favourite color" in command:
             spk(" i love all colors equally!")
 
         # life and existence
     elif "do you sleep" in command:
             spk(" i don't need sleep, but i do rest between conversations!")
 
-    elif "what's your dream" in command or "what is your dream":
+    elif "what's your dream" in command or "what is your dream" in command:
             spk(" my dream is to be the best assistant i can be!")
 
         # technology
@@ -420,7 +452,7 @@ while(1):
     elif command == "restart computer":
          subprocess.run(["shutdown", "/r", "/t", "0"], check=True)
     # process to restart the computer
-    elif command == "log off user":
+    elif command == "log user":
          subprocess.run("shutdown /l", check=True, shell=True)
     # process to log off the user
     elif command == "sleep the computer":
@@ -464,10 +496,10 @@ while(1):
     elif command == "mute volume":
         set_system_volume(0)
     # process to mute system volume
-    elif command == "unmute  volume":
+    elif command == "unmute volume":
         set_system_volume(80)
     # process to unmute system volume
-    elif command == "increase  volume":
+    elif command == "increase volume":
         d=get_volume()
         set_system_volume(d+17)
     # process to increase system volume by 10%
@@ -696,4 +728,7 @@ while(1):
         pyautogui.hotkey('right')  # Right-click the image and save
     elif command == "view page source":
         pyautogui.hotkey('ctrl', 'u')  # View page source
-
+ li()
+except KeyboardInterrupt:
+    spk("error occurec hemesh")
+    li()
