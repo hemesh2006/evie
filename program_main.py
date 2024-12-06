@@ -1,9 +1,15 @@
 from components.json_folder.jsonmanager import *
 from components.speak import *
 from components.functions import *
+from components.tkintersignin import*
 import datetime
 import psutil
 import sys
+from winsound import *
+
+#desktop block
+
+
 applications = {
     "notepad": "notepad.exe",
     "calculator": "calc.exe",
@@ -48,7 +54,7 @@ def button_count(idval):
     data=json.load(open(path,"r"))
     return data[idval]["click_count"]
     
-button_reset("arrow")
+
 
 '''sample gif json:
 [
@@ -153,8 +159,8 @@ image.clear()
 gif.clear()
 button.clear()
 input.clear()
-#screen_show()
-#sign_up("Enter  your Username")
+screen_show()
+sign_up("Enter  your Username")
 show_notification("LUCAS", " intelligent  assistant activated", 10)
 try:
  def li():
@@ -179,8 +185,28 @@ try:
          show_notification("jarvis ", "Ram Overflow", 10)
     image.append(["com12.png", [60, 80], 0, 0])
     gif.remove_element("loadh.gif")
+
     if "hello" in command or "hi" in command:
         spk("hello! how can i assist you today?")
+    elif command == "shut down computer":
+         shutdown()
+    # process to shut down the computer
+    elif command == "restart computer":
+         subprocess.run(["shutdown", "/r", "/t", "0"], check=True)
+    # process to restart the computer
+    elif command == "log user":
+         subprocess.run("shutdown /l", check=True, shell=True)
+    # process to log off the user
+    elif command == "sleep the computer":
+         sleeep()
+    # process to sleep the computer
+    elif command == "hibernate the computer":
+         hybrid_sleep()
+
+    elif "type" in command:
+         command=command.replace("type","")
+         type_keyboard(command)
+    # process to show system information
     elif command =="show ram usage":
          text.append()
     elif "how are you" in command:
@@ -446,25 +472,7 @@ try:
     elif command == "open google drive":
         open_chrome("https://drive.google.com/drive")
     # process to open google drive
-    elif command == "shut down computer":
-         shutdown()
-    # process to shut down the computer
-    elif command == "restart computer":
-         subprocess.run(["shutdown", "/r", "/t", "0"], check=True)
-    # process to restart the computer
-    elif command == "log user":
-         subprocess.run("shutdown /l", check=True, shell=True)
-    # process to log off the user
-    elif command == "sleep the computer":
-         sleeep()
-    # process to sleep the computer
-    elif command == "hibernate the computer":
-         hybrid_sleep()
 
-    elif "type" in command:
-         command=command.replace("type","")
-         type_keyboard(command)
-    # process to show system information
     elif command == "memory usage":
         spk(get_disk_space("C:/"))
     # process to view disk usage

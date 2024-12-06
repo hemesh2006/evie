@@ -623,4 +623,4 @@ def show_notification(title: str, message: str, timeout: int = 5):
 
 
 # Call the function to show the desktop
-show_desktop()
+
