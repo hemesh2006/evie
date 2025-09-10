@@ -4,7 +4,7 @@ import os
 import time
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton
 from PyQt5.QtGui import QIcon, QPixmap
-from PyQt5.QtCore import Qt, QPoint, QSize, QTimer
+from PyQt5.QtCore import Qt, QPoint, QSize, QTimer, QRect, QPropertyAnimation
 
 class ImageButtonOverlay(QMainWindow):
     def __init__(self, config_file_path):
@@ -54,9 +54,7 @@ class ImageButtonOverlay(QMainWindow):
                 if button_id in self.buttons:
                     # Update existing button if properties have changed
                     button = self.buttons[button_id]
-                    if button.icon().name() != image_path or button.size() != QSize(*size) or \
-                       button.pos() != QPoint(*position):
-                        self.update_button(button, image_path, position, size)
+                    self.update_button(button, image_path, position, size)
                 else:
                     # Create new button if it doesn't exist
                     self.create_button(button_id, image_path, position, size)
@@ -69,7 +67,7 @@ class ImageButtonOverlay(QMainWindow):
         button = QPushButton(self)
         button.setObjectName(button_id)
         button.setStyleSheet("background-color: transparent;")
-        button.clicked.connect(lambda _, b=button_id: self.log_click_event(b))
+        button.clicked.connect(lambda _, b=button_id: self.on_button_click(b, button))
 
         # Set button icon and size
         pixmap = QPixmap("C:\\Users\\HP\\Desktop\\evie\\asset\\src_image\\" + image_path)
@@ -86,13 +84,10 @@ class ImageButtonOverlay(QMainWindow):
 
     def update_button(self, button, image_path, position, size):
         """Update an existing button's image, position, and size."""
-        # Update button icon
         pixmap = QPixmap("C:\\Users\\HP\\Desktop\\evie\\asset\\src_image\\" + image_path)
         if not pixmap.isNull():
             button.setIcon(QIcon(pixmap))
             button.setIconSize(QSize(size[0], size[1]))
-
-        # Update button position and size
         button.move(QPoint(position[0], position[1]))
         button.resize(size[0], size[1])
         print(f"Updated button '{button.objectName()}' with new properties.")
@@ -100,30 +95,39 @@ class ImageButtonOverlay(QMainWindow):
     def reset_click_count(self):
         """Reset the click count of all buttons to 0 on initial run."""
         events = self.read_event_log()
-
-        # Initialize click_count to 0 for all buttons
         for button_id in self.buttons:
-            if button_id not in events:
-                events[button_id] = {"click_count": 0}
-            else:
-                events[button_id]["click_count"] = 0
-
+            events.setdefault(button_id, {})
+            events[button_id]["click_count"] = 0
         self.write_event_log(events)
+
+    def on_button_click(self, button_id, button):
+        """Handle click with click effect and log event."""
+        # --- Click animation effect ---
+        import winsound; winsound.Beep(1400, 300)
+        original_geometry = button.geometry()
+        shrinked_geometry = QRect(
+            original_geometry.x() + 5,
+            original_geometry.y() + 5,
+            original_geometry.width() - 10,
+            original_geometry.height() - 10
+        )
+
+        animation = QPropertyAnimation(button, b"geometry")
+        animation.setDuration(100)  # duration of the click effect in ms
+        animation.setStartValue(original_geometry)
+        animation.setKeyValueAt(0.5, shrinked_geometry)  # mid animation shrinks
+        animation.setEndValue(original_geometry)  # returns to normal
+        animation.start()
+
+        # --- Log the click ---
+        self.log_click_event(button_id)
 
     def log_click_event(self, button_id):
         """Log the number of clicks for the button."""
         events = self.read_event_log()
-
-        # Ensure click_count is an integer, even if the JSON file has unexpected data
-        try:
-            events.setdefault(button_id, {})  # Initialize if button_id not present
-            events[button_id]["click_count"] = int(events[button_id].get("click_count", 0)) + 1
-        except ValueError:
-            # If click_count is not a valid integer, reset it to 1
-            events[button_id]["click_count"] = 1
-
+        events.setdefault(button_id, {})
+        events[button_id]["click_count"] = int(events[button_id].get("click_count", 0)) + 1
         print(f"{button_id} clicked. Total clicks: {events[button_id]['click_count']}")
-
         self.write_event_log(events)
 
     def read_event_log(self):
@@ -142,9 +146,8 @@ class ImageButtonOverlay(QMainWindow):
     def check_and_update_json(self):
         """Check if the JSON file has been updated, and if so, update button properties."""
         current_modified_time = self.get_json_file_modified_time()
-
         if current_modified_time != self.last_modified_time:
-            print(f"JSON file has been updated at {current_modified_time}. Refreshing button properties.")
+            print(f"JSON file updated. Refreshing button properties.")
             self.last_modified_time = current_modified_time
             self.wait_for_valid_json()
 
@@ -152,14 +155,13 @@ class ImageButtonOverlay(QMainWindow):
         """Wait for the JSON file to be valid before updating button data."""
         while True:
             try:
-                # Try loading the JSON to ensure it's valid
                 with open(self.config_file_path, "r") as file:
                     json.load(file)
                 self.load_buttons_from_json()
-                break  # Exit loop if JSON is valid
+                break
             except json.JSONDecodeError:
-                print("JSON file is invalid. Waiting for a valid file...")
-                time.sleep(0.5)  # Wait briefly before retrying
+                print("JSON file invalid. Waiting for valid file...")
+                time.sleep(0.5)
 
     def get_json_file_modified_time(self):
         """Get the last modified time of the JSON file."""
@@ -174,34 +176,10 @@ class ImageButtonOverlay(QMainWindow):
 
 def main():
     app = QApplication(sys.argv)
-
-    # JSON file path with button configurations
     config_file_path = r"components\json_folder\button_details.json"
-
-    # Create overlay with image buttons
     overlay = ImageButtonOverlay(config_file_path)
-
-    # Show the overlay
     overlay.show_overlay()
-
     sys.exit(app.exec_())
 
 if __name__ == "__main__":
     main()
-
-#sample json file
-'''[
-    [
-        "button8",
-        "mic.png",
-        [
-            400,
-            200
-        ],
-        [
-            100,
-            50
-        ]
-    ]
-]
-'''

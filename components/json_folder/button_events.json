@@ -1,0 +1,11 @@
+{
+    "button1": {
+        "click_count": 30
+    },
+    "button2": {
+        "click_count": 6
+    },
+    "button3": {
+        "click_count": 0
+    }
+}
