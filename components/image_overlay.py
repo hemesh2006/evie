@@ -2,7 +2,7 @@ import sys
 import json
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QWidget
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtCore import Qt, QPoint, QTimer
+from PyQt5.QtCore import Qt, QTimer
 
 class ImageOverlay(QMainWindow):
     def __init__(self, json_path):
@@ -75,7 +75,12 @@ class ImageOverlay(QMainWindow):
     def start_blinking(self, label, blink_interval):
         """Start blinking a label indefinitely."""
         timer = QTimer(self)
-        timer.timeout.connect(lambda: label.setVisible(not label.isVisible()))
+
+        # Use a proper function to toggle visibility
+        def toggle_visibility():
+            label.setVisible(not label.isVisible())
+
+        timer.timeout.connect(toggle_visibility)
         timer.start(blink_interval)
         self.blink_timers.append(timer)
 
