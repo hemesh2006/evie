@@ -1,0 +1,39 @@
+gif overlay example
+
+'''   gif
+[
+    ["book.gif", [200, 0]],
+    ["df.gif", [50, 300]],
+    ["listen.gif", [650, 500]]
+]
+
+'''
+
+'''
+input
+
+[
+    ["Enter your name", [500, 100], [400, 140], [255, 255, 255], 14, true],
+    ["Enter your message", [500, 400], [1600, 1600], [255, 255, 0], 45, false]
+]
+
+'''
+
+img
+
+[
+    "image_filename",
+    [x_position, y_position],
+    blink_count,
+    blink_interval_in_milliseconds
+]
+
+
+[
+    ["star.png", [100, 150], 6, 500],
+    ["icon.png", [400, 300], 10, 300],
+    ["alert.png", [800, 50], 8, 200]
+]
+
+
+'''
